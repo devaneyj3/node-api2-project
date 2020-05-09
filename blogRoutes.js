@@ -31,14 +31,42 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: "There was an error while saving the post to the database" })
     }
 })
-
-router.delete('/:id', (req, res) => {
+    // DELETE a post
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
-    res.status(200).send(`DELETE Post ${id} is working`)
+    const idToBeDeleted = await db.remove(id) // why does it send back number
+    try {
+        if (idToBeDeleted === 0) {
+                res.status(404).json({ message: "The post with the specified ID does not exist." })
+            }
+            else {
+                console.log(idToBeDeleted)
+                res.send( `You have deleted ID: ${id}`)
+        }
+    } catch {
+        res.status(500).json({ error: "The post could not be removed" });
+    }
 })
-router.put('/:id', (req, res) => {
+
+//UPDATE a post
+router.put('/:id', async (req, res) => {
     const { id } = req.params;
-    res.status(200).send(`PUT Post ${id} is working`)
+    const changes = req.body;
+    const postToUpdate = await db.update(id, changes) // why does it send back number
+    console.log(postToUpdate)
+    try {
+        if (req.body.title === '' || req.body.contents === '') {
+            res.status(400).json({ errorMessage: "Please provide title and contents for the post." })
+        } else if (postToUpdate === 0 ) {
+            res.status(404).send({ message: "The post with the specified ID does not exist." })
+        }
+
+        else {
+            res.status(200).send(changes);   
+        }
+    } catch {
+        res.status(500).json({ error: "The post information could not be modified." })
+    }
 })
 router.get('/:id', (req, res) => {
     const { id } = req.params;
