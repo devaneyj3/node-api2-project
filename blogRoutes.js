@@ -103,6 +103,7 @@ router.post('/:id/comments', async (req, res) => {
     }
 })
 
+
 //GET comments of a specific post
 router.get('/:id/comments', async (req, res) => {
     const { id } = req.params;
