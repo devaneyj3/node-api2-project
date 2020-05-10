@@ -5,10 +5,10 @@ const Posts = () => {
   const data = useContext(blogContext);
   return (
     <section className="Posts">
-      {data.length === 0 ? (
+      {data.blogPosts.length === 0 ? (
         <p>There are no blog posts</p>
       ) : (
-        data.map((post) => {
+        data.blogPosts.map((post) => {
           return (
             <div key={post.id} className="post-card">
               <h2>{post.title}</h2>
