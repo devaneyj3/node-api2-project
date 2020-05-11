@@ -7,9 +7,9 @@ const db = require('./data/db');
 //get all posts
 
 router.get('/', async (req, res) => {
-    const answer = await db.find();
+    const posts = await db.find();
     try {
-        res.status(200).send(answer)
+        res.status(200).send(posts)
     } catch {
         res.status(500).json({ error: "The posts information could not be retrieved." })
     }
@@ -35,12 +35,11 @@ router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     const idToBeDeleted = await db.remove(id) // why does it send back number
     try {
-        if (idToBeDeleted === 0) {
-                res.status(404).json({ message: "The post with the specified ID does not exist." })
+        if (idToBeDeleted > 0) {
+                res.status(200).send(id)
             }
             else {
-                console.log(idToBeDeleted)
-                res.send( `You have deleted ID: ${id}`)
+                res.status(404).json({ message: "The post with the specified ID does not exist." })
         }
     } catch {
         res.status(500).json({ error: "The post could not be removed" });

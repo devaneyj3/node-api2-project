@@ -1,25 +1,35 @@
 import React, { useContext } from "react";
 import "./Posts";
 import { blogContext } from "../../context/blogContext";
+import Post from "../post/post";
+import "./Posts.scss";
+import { Alert } from "reactstrap";
 const Posts = () => {
   const data = useContext(blogContext);
   return (
-    <section className="Posts">
-      {data.blogPosts.length === 0 ? (
-        <p>There are no blog posts</p>
-      ) : (
-        data.blogPosts.map((post) => {
-          return (
-            <div key={post.id} className="post-card">
-              <h2>{post.title}</h2>
-              <p>{post.contents}</p>
-              <p>{post.created_at}</p>
-              <p>{post.updated_at}</p>
-            </div>
-          );
-        })
-      )}
-    </section>
+    <>
+      {data.message !== "" ? (
+        <Alert color="danger">{data.message}</Alert>
+      ) : null}
+      <section className="Posts">
+        {data.blogPosts.length === 0 ? (
+          <Alert color="danger">There are no blog posts</Alert>
+        ) : (
+          data.blogPosts.map((post) => {
+            return (
+              <Post
+                key={post.id}
+                title={post.title}
+                contents={post.contents}
+                created_at={post.created_at}
+                updated_at={post.updated_at}
+                delete={() => data.Delete(post.id)}
+              />
+            );
+          })
+        )}
+      </section>
+    </>
   );
 };
 
