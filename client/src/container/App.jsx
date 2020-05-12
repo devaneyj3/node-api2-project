@@ -7,6 +7,7 @@ import axiosInstance from "../Axios/axiosInstance";
 import Nav from "../components/Nav/Nav";
 import Add_New_Post from "../components/Add_New_Post/Add_New_Post";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Edit_Post from "../components/Edit_Post/Edit_Post";
 
 const App = () => {
   const [blogPosts, setBlogPost] = useState([]);
@@ -33,6 +34,7 @@ const App = () => {
         <Nav />
         <Route exact path="/Posts" component={Posts} />
         <Route path="/Add_New_Post" component={Add_New_Post} />
+        <Route path='/edit/:id' component={Edit_Post} />
         <Redirect from="/" to="/Posts" />
       </div>
     </blogContext.Provider>

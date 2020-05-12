@@ -4,10 +4,13 @@ import { blogContext } from "../../context/blogContext";
 import Post from "../post/post";
 import "./Posts.scss";
 import { Alert } from "reactstrap";
+import moment from "moment";
+
 const Posts = () => {
   const data = useContext(blogContext);
   return (
-    <>
+    <div className="Post-Container">
+      <h3>Today is {moment().format("MMMM Do YYYY")}</h3>
       {data.message !== "" ? (
         <Alert color="danger">{data.message}</Alert>
       ) : null}
@@ -19,6 +22,7 @@ const Posts = () => {
             return (
               <Post
                 key={post.id}
+                id={post.id}
                 title={post.title}
                 contents={post.contents}
                 created_at={post.created_at}
@@ -29,7 +33,7 @@ const Posts = () => {
           })
         )}
       </section>
-    </>
+    </div>
   );
 };
 
